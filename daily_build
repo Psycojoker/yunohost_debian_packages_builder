@@ -24,6 +24,7 @@ CODENAME="jessie"
 # pbuilder
 BASE_TGZ="/var/cache/pbuilder/images/amd64/${CODENAME}.tgz"
 BUILD_SOURCES=/usr/local/bin/pbuilder/build-sources
+PBUILDERRC=~/.pbuilderrc
 
 export DEBSIGN_KEYID=59A3E6FF
 export DEBFULLNAME="YunoHost Contributors"
@@ -52,6 +53,7 @@ OPTIONS:
   -d PATH             Where to build the packages (default: $PACKAGES_PATH)
   -t BASE_TGZ         Base tgz to use for pbuilder (default: $BASE_TGZ)
   -s BUILD_SOURCES    build-sources for pbuilder (default: $BUILD_SOURCES)
+  -r PBUILDERRC       path to pbuilderrc (default: $PBUILDERRC)
   -f                  Force package building
   -l                  Build sources locally
   -h                  Print this help
@@ -60,7 +62,7 @@ exit
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:" option; do
     case $option in
         f)
             FORCE=true
@@ -95,6 +97,13 @@ while getopts ":fhlb:c:d:v:p:t:s:" option; do
                 BUILD_SOURCES=$(pwd)/$OPTARG
             else
                 BUILD_SOURCES=$OPTARG
+            fi
+            ;;
+        r)
+            if [[ ! "$OPTARG" == "/*" ]] || [[ ! "$OPTARG" == "~*" ]]; then
+                PBUILDERRC=$(pwd)/$OPTARG
+            else
+                PBUILDERRC=$OPTARG
             fi
             ;;
         h)
@@ -162,7 +171,7 @@ for package in $NEW_PACKAGES; do
     if $BUILD_SRC_LOCALLY; then
         debuild -S -sa > /dev/null
     else
-        sudo pbuilder execute --bindmounts ${PACKAGES_PATH} --basetgz $BASE_TGZ -- $BUILD_SOURCES ${PACKAGES_PATH}/${package}
+        sudo pbuilder execute --configfile $PBUILDERRC --bindmounts ${PACKAGES_PATH} --basetgz $BASE_TGZ -- $BUILD_SOURCES ${PACKAGES_PATH}/${package}
     fi
     if [ $? -ne 0 ] || [ ! -f ${changes_file} ]; then
         echo "An error occured while building source package ${package}"
