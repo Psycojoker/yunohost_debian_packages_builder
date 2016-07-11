@@ -42,6 +42,11 @@ if ! which pbuilder > /dev/null; then
     exit 1
 fi
 
+if ! which reprepro > /dev/null; then
+    echo "You don't have reprepro on your PATH, please do a 'apt-get install reprepro'"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
