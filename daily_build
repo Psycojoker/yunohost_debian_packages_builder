@@ -83,6 +83,10 @@ done
 
 source $CONFIG
 
+if [ ! -e "$PACKAGES_PATH" ]; then
+    mkdir $PACKAGES_PATH
+fi
+
 cd $PACKAGES_PATH
 
 # Find packages to build
