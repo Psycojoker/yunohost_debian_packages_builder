@@ -33,6 +33,7 @@ OPTIONS:
   -v VERSION  Package version to set (default: $VERSION)
   -b BRANCH   Branch to use (default: $BRANCH)
   -c CONFIG   Path to config file (default: $CONFIG)
+  -d PATH     Where to build the packages (default: $PACKAGES_PATH)
   -f          Force package building
   -l          Build sources locally
   -h          Print this help
@@ -41,7 +42,7 @@ exit
 }
 
 # Parse options
-while getopts ":fhlbc:v:p:" option; do
+while getopts ":fhlbcd:v:p:" option; do
     case $option in
         f)
             FORCE=true
@@ -57,6 +58,9 @@ while getopts ":fhlbc:v:p:" option; do
             ;;
         c)
             CONFIG=$OPTARG
+            ;;
+        d)
+            PACKAGES_PATH=$OPTARG
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
