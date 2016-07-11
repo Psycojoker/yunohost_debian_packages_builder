@@ -102,11 +102,11 @@ fi
 PKG_TO_BUILD=0
 
 for package in $NEW_PACKAGES; do
-    if [ ! -e "$PACKAGES_PATH/$package" ]; then
-        git clone https://github.com/yunohost/$package $PACKAGES_PATH/$package
+    if [ ! -e "$package" ]; then
+        git clone https://github.com/yunohost/$package
     fi
 
-    cd $PACKAGES_PATH/$package
+    cd $package
 
     echo "---------------------------------------------"
     echo "Selected package: ${package}"
