@@ -27,6 +27,7 @@ BUILD_SOURCES=/usr/local/bin/pbuilder/build-sources
 PBUILDERRC=~/.pbuilderrc
 
 INCLUDE_CHANGES=/usr/local/bin/repo/include-changes
+PROCESS_INCLUDE=/usr/local/bin/repo/process-include
 
 OVERWRITE_REPO_DIR=
 
@@ -65,6 +66,7 @@ OPTIONS:
   -r PBUILDERRC       path to pbuilderrc (default: $PBUILDERRC)
   -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
+  -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
   -f                  Force package building
   -l                  Build sources locally
   -h                  Print this help
@@ -81,7 +83,7 @@ absolute_path() {
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:r:i:e:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:" option; do
     case $option in
         f)
             FORCE=true
@@ -118,6 +120,9 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:" option; do
             ;;
         e)
             OVERWRITE_REPO_DIR=$(absolute_path $OPTARG)
+            ;;
+        o)
+            PROCESS_INCLUDE=$(absolute_path $OPTARG)
             ;;
         h)
             usage
