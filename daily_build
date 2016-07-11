@@ -55,6 +55,16 @@ if ! which rebuildd-job > /dev/null; then
     exit 1
 fi
 
+if ! grep "more_archs =.* all" /etc/rebuildd/rebuilddrc; then
+    echo "You need to add 'all' to 'more_archs = ...' in your /etc/rebuildd/rebuilddrc"
+    exit 1
+fi
+
+if ! grep "dists = .*jessie" /etc/rebuildd/rebuilddrc; then
+    echo "You need to add 'jessie' to 'dists = ...' in your /etc/rebuildd/rebuilddrc"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
