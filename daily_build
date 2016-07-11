@@ -42,7 +42,7 @@ exit
 }
 
 # Parse options
-while getopts ":fhlbcd:v:p:" option; do
+while getopts ":fhlb:c:d:v:p:" option; do
     case $option in
         f)
             FORCE=true
