@@ -61,6 +61,14 @@ EOF
 exit
 }
 
+absolute_path() {
+    if [[ ! "$1" == "/*" ]] || [[ ! "$1" == "~*" ]]; then
+        echo $(pwd)/$OPTARG
+    else
+        echo $OPTARG
+    fi
+}
+
 # Parse options
 while getopts ":fhlb:c:d:v:p:t:s:r:" option; do
     case $option in
@@ -80,35 +88,20 @@ while getopts ":fhlb:c:d:v:p:t:s:r:" option; do
             CONFIG=$OPTARG
             ;;
         d)
-            if [[ ! "$OPTARG" == "/*" ]]; then
-                PACKAGES_PATH=$(pwd)/$OPTARG
-            else
-                PACKAGES_PATH=$OPTARG
-            fi
+            PACKAGES_PATH=$(absolute_path $OPTARG)
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
             ;;
         t)
-            if [[ ! "$OPTARG" == "/*" ]]; then
-                BASE_TGZ=$(pwd)/$OPTARG
-            else
-                BASE_TGZ=$OPTARG
-            fi
+            BASE_TGZ=$(absolute_path $OPTARG)
             ;;
         s)
-            if [[ ! "$OPTARG" == "/*" ]]; then
-                BUILD_SOURCES=$(pwd)/$OPTARG
-            else
-                BUILD_SOURCES=$OPTARG
-            fi
+            BUILD_SOURCES=$(absolute_path $OPTARG)
             ;;
         r)
-            if [[ ! "$OPTARG" == "/*" ]] || [[ ! "$OPTARG" == "~*" ]]; then
-                PBUILDERRC=$(pwd)/$OPTARG
-            else
-                PBUILDERRC=$OPTARG
-            fi
+            PBUILDERRC=$(absolute_path $OPTARG)
+            ;;
             ;;
         h)
             usage
