@@ -25,6 +25,11 @@ export DEBSIGN_KEYID=59A3E6FF
 export DEBFULLNAME="YunoHost Contributors"
 export DEBEMAIL="contrib@yunohost.org"
 
+if ! which dch > /dev/null; then
+    echo "You don't have dch on your PATH, please do a 'apt-get install devscripts'"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
