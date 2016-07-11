@@ -44,15 +44,15 @@ cat << EOF
 Usage: `basename $0` [options]
 
 OPTIONS:
-  -p PACKAGE  Package name to build
-  -v VERSION  Package version to set (default: $VERSION)
-  -b BRANCH   Branch to use (default: $BRANCH)
-  -c CONFIG   Path to config file (default: $CONFIG)
-  -d PATH     Where to build the packages (default: $PACKAGES_PATH)
-  -t BASE_TGZ Base tgz to use for pbuilder (default: $BASE_TGZ)
-  -f          Force package building
-  -l          Build sources locally
-  -h          Print this help
+  -p PACKAGE          Package name to build
+  -v VERSION          Package version to set (default: $VERSION)
+  -b BRANCH           Branch to use (default: $BRANCH)
+  -c CONFIG           Path to config file (default: $CONFIG)
+  -d PATH             Where to build the packages (default: $PACKAGES_PATH)
+  -t BASE_TGZ         Base tgz to use for pbuilder (default: $BASE_TGZ)
+  -f                  Force package building
+  -l                  Build sources locally
+  -h                  Print this help
 EOF
 exit
 }
