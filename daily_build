@@ -28,6 +28,8 @@ PBUILDERRC=~/.pbuilderrc
 
 INCLUDE_CHANGES=/usr/local/bin/repo/include-changes
 
+OVERWRITE_REPO_DIR=
+
 export DEBSIGN_KEYID=59A3E6FF
 export DEBFULLNAME="YunoHost Contributors"
 export DEBEMAIL="contrib@yunohost.org"
@@ -62,6 +64,7 @@ OPTIONS:
   -s BUILD_SOURCES    build-sources for pbuilder (default: $BUILD_SOURCES)
   -r PBUILDERRC       path to pbuilderrc (default: $PBUILDERRC)
   -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
+  -e REPO_DIR         Overwrite REPO_DIR  from config file
   -f                  Force package building
   -l                  Build sources locally
   -h                  Print this help
@@ -78,7 +81,7 @@ absolute_path() {
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:r:i:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:i:e:" option; do
     case $option in
         f)
             FORCE=true
@@ -113,6 +116,9 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:" option; do
         i)
             INCLUDE_CHANGES=$(absolute_path $OPTARG)
             ;;
+        e)
+            OVERWRITE_REPO_DIR=$(absolute_path $OPTARG)
+            ;;
         h)
             usage
             ;;
@@ -128,6 +134,10 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:" option; do
 done
 
 source $CONFIG
+
+if [ -n "$OVERWRITE_REPO_DIR" ]; then
+    REPO_DIR=$OVERWRITE_REPO_DIR
+fi
 
 if [ ! -e "$PACKAGES_PATH" ]; then
     mkdir $PACKAGES_PATH
@@ -196,7 +206,7 @@ for package in $NEW_PACKAGES; do
 
     echo "Adding ${package}_${VERSION} to ${CODENAME}/${DISTRIBUTION}..."
 #    /usr/local/bin/repo/move-to-incoming "../${package}_${VERSION}_source.changes"
-    $INCLUDE_CHANGES $CODENAME $DISTRIBUTION $changes_file $CONFIG
+    $INCLUDE_CHANGES $CODENAME $DISTRIBUTION $changes_file $CONFIG $REPO_DIR
     RET=$?
 
     # Do not save in changelog

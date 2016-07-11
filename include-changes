@@ -6,10 +6,9 @@ codename=$1
 distribution=$2
 changes_file=$3
 config_path=$4
+repo_dir=$5
 
-source $config_path
-
-sudo reprepro -C $distribution -V -b $REPO_DIR include $codename $changes_file
+sudo reprepro -C $distribution -V -b $repo_dir include $codename $changes_file
 RET=$?
 
 # Cleaning files
