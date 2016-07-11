@@ -21,6 +21,9 @@ PACKAGES_PATH=/home/pbuilder/packages
 DISTRIBUTION="unstable"
 CODENAME="jessie"
 
+# pbuilder
+BASE_TGZ="/var/cache/pbuilder/images/amd64/${CODENAME}.tgz"
+
 export DEBSIGN_KEYID=59A3E6FF
 export DEBFULLNAME="YunoHost Contributors"
 export DEBEMAIL="contrib@yunohost.org"
@@ -46,6 +49,7 @@ OPTIONS:
   -b BRANCH   Branch to use (default: $BRANCH)
   -c CONFIG   Path to config file (default: $CONFIG)
   -d PATH     Where to build the packages (default: $PACKAGES_PATH)
+  -t BASE_TGZ Base tgz to use for pbuilder (default: $BASE_TGZ)
   -f          Force package building
   -l          Build sources locally
   -h          Print this help
@@ -54,7 +58,7 @@ exit
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:" option; do
+while getopts ":fhlb:c:d:v:p:t:" option; do
     case $option in
         f)
             FORCE=true
@@ -76,6 +80,13 @@ while getopts ":fhlb:c:d:v:p:" option; do
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
+            ;;
+        t)
+            if [[ ! "$OPTARG" == "/*" ]]; then
+                BASE_TGZ=$(pwd)/$OPTARG
+            else
+                BASE_TGZ=$OPTARG
+            fi
             ;;
         h)
             usage
@@ -142,7 +153,7 @@ for package in $NEW_PACKAGES; do
     if $BUILD_SRC_LOCALLY; then
         debuild -S -sa > /dev/null
     else
-        sudo pbuilder execute --bindmounts ${PACKAGES_PATH} --basetgz /var/cache/pbuilder/images/amd64/${CODENAME}.tgz -- /usr/local/bin/pbuilder/build-sources ${PACKAGES_PATH}/${package}
+        sudo pbuilder execute --bindmounts ${PACKAGES_PATH} --basetgz $BASE_TGZ -- /usr/local/bin/pbuilder/build-sources ${PACKAGES_PATH}/${package}
     fi
     if [ $? -ne 0 ] || [ ! -f ${changes_file} ]; then
         echo "An error occured while building source package ${package}"
