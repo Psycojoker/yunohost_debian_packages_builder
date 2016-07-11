@@ -93,7 +93,7 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:" option; do
             BRANCH=$OPTARG
             ;;
         c)
-            CONFIG=$OPTARG
+            CONFIG=$(absolute_path $OPTARG)
             ;;
         d)
             PACKAGES_PATH=$(absolute_path $OPTARG)
