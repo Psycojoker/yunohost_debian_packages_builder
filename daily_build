@@ -50,6 +50,11 @@ if ! which reprepro > /dev/null; then
     exit 1
 fi
 
+if ! which rebuildd-job > /dev/null; then
+    echo "You don't have rebuildd on your PATH, please do a 'apt-get install rebuildd'"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
