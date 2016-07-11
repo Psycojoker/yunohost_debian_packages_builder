@@ -31,9 +31,9 @@ PROCESS_INCLUDE=/usr/local/bin/repo/process-include
 
 OVERWRITE_REPO_DIR=
 
-export DEBSIGN_KEYID=59A3E6FF
-export DEBFULLNAME="YunoHost Contributors"
-export DEBEMAIL="contrib@yunohost.org"
+DEBSIGN_KEYID=59A3E6FF
+DEBFULLNAME="YunoHost Contributors"
+DEBEMAIL="contrib@yunohost.org"
 
 if ! which dch > /dev/null; then
     echo "You don't have dch on your PATH, please do a 'apt-get install devscripts'"
@@ -67,6 +67,7 @@ OPTIONS:
   -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
   -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
+  -k DEBSIGN_KEYID    Key to sign packages with (default: $DEBSIGN_KEYID)
   -f                  Force package building
   -l                  Build sources locally
   -h                  Print this help
@@ -83,7 +84,7 @@ absolute_path() {
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:" option; do
     case $option in
         f)
             FORCE=true
@@ -124,6 +125,9 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:" option; do
         o)
             PROCESS_INCLUDE=$(absolute_path $OPTARG)
             ;;
+        k)
+            DEBSIGN_KEYID=$(absolute_path $OPTARG)
+            ;;
         h)
             usage
             ;;
@@ -137,6 +141,10 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:" option; do
             ;;
     esac
 done
+
+export DEBSIGN_KEYID
+export DEBFULLNAME
+export DEBEMAIL
 
 source $CONFIG
 
