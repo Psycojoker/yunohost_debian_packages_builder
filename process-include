@@ -8,7 +8,15 @@ package=$3
 version=$4
 changes_file=$5
 
-source /usr/local/lib/helpers/debian/package.sh
+# source /usr/local/lib/helpers/debian/package.sh
+
+# Get Architecture entry from a given .changes or .dsc file
+get_architecture()
+{
+    file=$(readlink -fn $1)
+    echo $(awk '/^Architecture:/ {print $2}' $file)
+}
+
 
 MAIL="rebuildd@yunohost.org"
  
