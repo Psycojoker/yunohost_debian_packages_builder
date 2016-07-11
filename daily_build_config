@@ -1,0 +1,13 @@
+#!/bin/bash
+
+REPO_DIR=/var/www/repo/debian
+PATATE_REPO_DIR=/var/www/repo/patate
+
+AVAILABLE_CODENAMES="wheezy jessie stretch"
+DEFAULT_CODENAME="jessie"
+
+AVAILABLE_COMPONENTS="old-stable stable testing unstable extra"
+DEFAULT_COMPONENT="unstable"
+
+AVAILABLE_ARCH="amd64 i386 armhf"
+DEFAULT_ARCH="amd64"
