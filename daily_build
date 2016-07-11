@@ -30,6 +30,11 @@ if ! which dch > /dev/null; then
     exit 1
 fi
 
+if ! which pbuilder > /dev/null; then
+    echo "You don't have pbuilder on your PATH, please do a 'apt-get install pbuilder'"
+    exit 1
+fi
+
 usage()
 {
 cat << EOF
