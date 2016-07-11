@@ -4,6 +4,8 @@ set -eux
 
 CONFIG=/usr/local/bin/repo/config
 
+REQUIRED_PACKAGE=
+
 # Default options values
 ## Either building source in a chroot env or not
 BUILD_SRC_LOCALLY=false
