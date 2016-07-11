@@ -133,6 +133,11 @@ if [ ! -e "$PACKAGES_PATH" ]; then
     mkdir $PACKAGES_PATH
 fi
 
+if [ ! -e /var/cache/archive/ ]; then
+    echo "WARNING: /var/cache/archive/ doesn't exist, mkdir it"
+    sudo mkdir /var/cache/archive
+fi
+
 cd $PACKAGES_PATH
 
 # Find packages to build
