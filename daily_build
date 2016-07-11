@@ -2,7 +2,7 @@
 
 set -eux
 
-source /usr/local/bin/repo/config
+CONFIG=/usr/local/bin/repo/config
 
 # Default options values
 ## Either building source in a chroot env or not
@@ -32,6 +32,7 @@ OPTIONS:
   -p PACKAGE  Package name to build
   -v VERSION  Package version to set (default: $VERSION)
   -b BRANCH   Branch to use (default: $BRANCH)
+  -c CONFIG   Path to config file (default: $CONFIG)
   -f          Force package building
   -l          Build sources locally
   -h          Print this help
@@ -40,7 +41,7 @@ exit
 }
 
 # Parse options
-while getopts ":fhlb:v:p:" option; do
+while getopts ":fhlbc:v:p:" option; do
     case $option in
         f)
             FORCE=true
@@ -53,6 +54,9 @@ while getopts ":fhlb:v:p:" option; do
             ;;
         b)
             BRANCH=$OPTARG
+            ;;
+        c)
+            CONFIG=$OPTARG
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
@@ -70,6 +74,8 @@ while getopts ":fhlb:v:p:" option; do
             ;;
     esac
 done
+
+source $CONFIG
 
 cd $PACKAGES_PATH
 
