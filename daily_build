@@ -131,7 +131,7 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:" option; do
             PROCESS_INCLUDE=$(absolute_path $OPTARG)
             ;;
         k)
-            DEBSIGN_KEYID=$(absolute_path $OPTARG)
+            DEBSIGN_KEYID=$OPTARG
             ;;
         h)
             usage
