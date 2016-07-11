@@ -11,6 +11,13 @@ repo_dir=$5
 sudo reprepro -C $distribution -V -b $repo_dir include $codename $changes_file
 RET=$?
 
+# Get Files entries from a given .changes or .dsc file
+get_files()
+{
+    file=$(readlink -fn $1)
+    echo $(awk '/^Files:/,EOF' $file | gawk '/^ [a-z0-9]{32} / {print $5}')
+}
+
 # Cleaning files
 if [ $RET -eq 0 ]; then
     dir=$(cd `dirname $changes_file` && pwd)
