@@ -80,7 +80,11 @@ while getopts ":fhlb:c:d:v:p:t:s:r:" option; do
             CONFIG=$OPTARG
             ;;
         d)
-            PACKAGES_PATH=$OPTARG
+            if [[ ! "$OPTARG" == "/*" ]]; then
+                PACKAGES_PATH=$(pwd)/$OPTARG
+            else
+                PACKAGES_PATH=$OPTARG
+            fi
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
