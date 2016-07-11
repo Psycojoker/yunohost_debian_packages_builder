@@ -192,7 +192,7 @@ for package in $NEW_PACKAGES; do
 
     echo "Adding ${package}_${VERSION} to ${CODENAME}/${DISTRIBUTION}..."
 #    /usr/local/bin/repo/move-to-incoming "../${package}_${VERSION}_source.changes"
-    $INCLUDE_CHANGES $CODENAME $DISTRIBUTION $changes_file
+    $INCLUDE_CHANGES $CODENAME $DISTRIBUTION $changes_file $CONFIG
     RET=$?
 
     # Do not save in changelog
