@@ -62,8 +62,8 @@ OPTIONS:
   -c CONFIG           Path to config file (default: $CONFIG)
   -d PATH             Where to build the packages (default: $PACKAGES_PATH)
   -t BASE_TGZ         Base tgz to use for pbuilder (default: $BASE_TGZ)
-  -s BUILD_SOURCES    build-sources for pbuilder (default: $BUILD_SOURCES)
-  -r PBUILDERRC       path to pbuilderrc (default: $PBUILDERRC)
+  -s BUILD_SOURCES    Build-sources for pbuilder (default: $BUILD_SOURCES)
+  -r PBUILDERRC       Path to pbuilderrc (default: $PBUILDERRC)
   -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
   -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
