@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eux
+
 action=$1
 codename=$2
 package=$3
