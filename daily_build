@@ -150,6 +150,10 @@ else
     fi 
 fi
 
+cp $REPO_DIR/conf/distributions.tmpl $REPO_DIR/conf/distributions
+sed -i "s#DEBSIGN_KEYID#$DEBSIGN_KEYID#g" $REPO_DIR/conf/distributions
+sed -i "s#PROCESS_INCLUDE#$PROCESS_INCLUDE#g" $REPO_DIR/conf/distributions
+
 PKG_TO_BUILD=0
 
 for package in $NEW_PACKAGES; do
