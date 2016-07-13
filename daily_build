@@ -71,7 +71,7 @@ OPTIONS:
   -t BASE_TGZ         Base tgz to use for pbuilder (default: $BASE_TGZ)
   -s BUILD_SOURCES    Build-sources for pbuilder (default: $BUILD_SOURCES)
   -r PBUILDERRC       Path to pbuilderrc (default: $PBUILDERRC)
-  -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
+  -i INCLUDE_CHANGES  Path to include-changes (default: $INCLUDE_CHANGES)
   -b REBUILD_DIR      Path to rebuild dir containg binaries (default: $REBUILD_DIR)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
   -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
