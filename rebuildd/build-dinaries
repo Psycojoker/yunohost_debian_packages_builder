@@ -5,8 +5,6 @@ package=$2
 version=$3
 arch=$4
 
-source /usr/local/lib/helpers/debian/package.sh
-
 DEFAULT_ARCH=amd64
 
 # Build only binary-only limited to architecture dependent packages
