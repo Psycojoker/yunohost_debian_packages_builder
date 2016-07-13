@@ -72,7 +72,7 @@ OPTIONS:
   -s BUILD_SOURCES    Build-sources for pbuilder (default: $BUILD_SOURCES)
   -r PBUILDERRC       Path to pbuilderrc (default: $PBUILDERRC)
   -i INCLUDE_CHANGES  Path to include-changes (default: $INCLUDE_CHANGES)
-  -b REBUILD_DIR      Path to rebuild dir containg binaries (default: $REBUILD_DIR)
+  -u REBUILD_DIR      Path to rebuild dir containg binaries (default: $REBUILD_DIR)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
   -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
   -k DEBSIGN_KEYID    Key to sign packages with (default: $DEBSIGN_KEYID)
@@ -92,7 +92,7 @@ absolute_path() {
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:b:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:u:" option; do
     case $option in
         f)
             FORCE=true
@@ -115,7 +115,7 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:b:" option; do
         p)
             REQUIRED_PACKAGE=$OPTARG
             ;;
-        b)
+        u)
             REBUILD_DIR=$(absolute_path $OPTARG)
             ;;
         t)
