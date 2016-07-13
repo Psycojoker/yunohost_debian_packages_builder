@@ -5,7 +5,7 @@ package=$2
 version=$3
 arch=$4
 
-DEFAULT_ARCH=amd64
+source ../daily_build_config
 
 # Build only binary-only limited to architecture dependent packages
 DEBBUILDOPTS="-B"
