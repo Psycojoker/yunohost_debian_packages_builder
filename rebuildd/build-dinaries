@@ -42,7 +42,7 @@ if [[ $package =~ ^yunohost-admin$ ]]; then
     base_tgz="/var/cache/pbuilder/images/${arch}/${codename}-nodejs.tgz"
     if [[ -f ${base_tgz} ]]; then
         echo "+ using nodejs environment..."
-	BASE_TGZ=${base_tgz}
+    BASE_TGZ=${base_tgz}
     fi
 fi
 
