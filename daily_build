@@ -179,6 +179,8 @@ if [ "$(diff /etc/rebuildd/rebuilddrc rebuilddrc)" ]; then
     echo "WARNING: local rebuilddrc isn't the same than upstream one, bakuping old and installing new one"
     sudo mv /etc/rebuildd/rebuilddrc /etc/rebuildd/rebuilddrc.bak-$(date +%F_%X)
     sudo cp rebuilddrc /etc/rebuildd/rebuilddrc
+
+    sudo service rebuildd restart
 fi
 
 cd $PACKAGES_PATH
