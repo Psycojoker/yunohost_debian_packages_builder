@@ -35,6 +35,8 @@ DEBSIGN_KEYID=59A3E6FF
 DEBFULLNAME="YunoHost Contributors"
 DEBEMAIL="contrib@yunohost.org"
 
+REBUILD_DIR=/usr/local/bin/rebuildd
+
 if ! which dch > /dev/null; then
     echo "You don't have dch on your PATH, please do a 'apt-get install devscripts'"
     exit 1
@@ -55,16 +57,6 @@ if ! which rebuildd-job > /dev/null; then
     exit 1
 fi
 
-if ! grep "more_archs =.* all" /etc/rebuildd/rebuilddrc; then
-    echo "You need to add 'all' to 'more_archs = ...' in your /etc/rebuildd/rebuilddrc"
-    exit 1
-fi
-
-if ! grep "dists = .*jessie" /etc/rebuildd/rebuilddrc; then
-    echo "You need to add 'jessie' to 'dists = ...' in your /etc/rebuildd/rebuilddrc"
-    exit 1
-fi
-
 usage()
 {
 cat << EOF
@@ -80,6 +72,7 @@ OPTIONS:
   -s BUILD_SOURCES    Build-sources for pbuilder (default: $BUILD_SOURCES)
   -r PBUILDERRC       Path to pbuilderrc (default: $PBUILDERRC)
   -i PBUILDERRC       Path to include-changes (default: $INCLUDE_CHANGES)
+  -b REBUILD_DIR      Path to rebuild dir containg binaries (default: $REBUILD_DIR)
   -e REPO_DIR         Overwrite REPO_DIR  from config file
   -o PROCESS_INCLUDE  Path to process-include (default: $PROCESS_INCLUDE)
   -k DEBSIGN_KEYID    Key to sign packages with (default: $DEBSIGN_KEYID)
@@ -99,7 +92,7 @@ absolute_path() {
 }
 
 # Parse options
-while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:" option; do
+while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:b:" option; do
     case $option in
         f)
             FORCE=true
@@ -121,6 +114,9 @@ while getopts ":fhlb:c:d:v:p:t:s:r:i:e:o:k:" option; do
             ;;
         p)
             REQUIRED_PACKAGE=$OPTARG
+            ;;
+        b)
+            REBUILD_DIR=$(absolute_path $OPTARG)
             ;;
         t)
             BASE_TGZ=$(absolute_path $OPTARG)
@@ -174,6 +170,13 @@ fi
 if [ ! -e /var/cache/archive/ ]; then
     echo "WARNING: /var/cache/archive/ doesn't exist, mkdir it"
     sudo mkdir /var/cache/archive
+fi
+
+if [ "$(diff /etc/rebuildd/rebuilddrc rebuilddrc)" ]; then
+    echo "WARNING: local rebuilddrc isn't the same than upstream one, bakuping old and installing new one"
+    sudo mv /etc/rebuildd/rebuilddrc /etc/rebuildd/rebuilddrc.bak
+    sudo cp rebuilddrc /etc/rebuildd/rebuilddrc
+    sed -i "s#REBUILD_DIR#$REBUILD_DIR#g" /etc/rebuildd/rebuilddrc
 fi
 
 cd $PACKAGES_PATH
